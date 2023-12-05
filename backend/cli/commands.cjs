@@ -7,7 +7,7 @@ const { addEntry } = require('./functions.cjs')
 
 //I'm using a .cjs (common JS) because it helps to bypass the requirement of conforming to ES6 which may conflict with older packages
 
-//called with --version or --description
+//called with --version or --description. --help will also list all commands
 program
     .version('1.0.0')
     .description('Client Management System')
@@ -49,6 +49,23 @@ const questions = [
         .action(() => {
             prompt(questions).then(answers => addEntry(answers))
         });
+
+        //this is also a valid way to create a command where the function and command are on the same page 
+    program
+        .command('newcommand')
+        .alias('a')
+        .description('Add an entry')
+        .action(async (props) => {
+            try {
+                //function stuff here
+            } catch (error) {
+                console.error(error)
+            }
+        });
+
+
+//Remeber the task is to seed a database. So we need to create a command that will accept a file, which is ./data/seed.json
+//So the above commands are just taking props. You'll need to enter a file path as an input/answer. It's the function that will handle the filepath and what to do with it.
 
 program.parse(process.argv); //this thing basically parses all the program commands above. Think of each <input> after the .command as an array item. 
 //Here's chatGPT to explain what I can't:  
